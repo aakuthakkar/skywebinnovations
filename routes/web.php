@@ -20,6 +20,7 @@ use App\Http\Controllers\Admin\NavigationItemController;
 use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CalculatorController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\RobotsController;
@@ -31,6 +32,10 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
 Route::get('/blog/{slug}', [BlogController::class, 'show'])->name('blog.show');
 Route::post('/contact', [ContactController::class, 'submit'])->name('contact.submit');
+
+// Free tools (link-magnet pages — must be above the catch-all {slug} route)
+Route::get('/website-cost-calculator', [CalculatorController::class, 'index'])->name('calculator');
+
 Route::get('robots.txt', [RobotsController::class, 'index'])->name('robots');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
 

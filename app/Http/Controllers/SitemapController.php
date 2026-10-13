@@ -66,6 +66,9 @@ class SitemapController extends BaseController
         // Blog listing page
         $xml .= $this->url($baseUrl . '/blog', $now, 'weekly', '0.7');
 
+        // Free tool — high value landing page (link magnet)
+        $xml .= $this->url($baseUrl . '/website-cost-calculator', $now, 'monthly', '0.9');
+
         // Published blog posts
         foreach (BlogPost::published()->orderByDesc('published_at')->get() as $post) {
             $lastmod = $post->updated_at?->toIso8601String() ?? ($post->published_at?->toIso8601String() ?? $now);
@@ -89,6 +92,7 @@ class SitemapController extends BaseController
         return '<?xml version="1.0" encoding="UTF-8"?>' . "\n" .
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n" .
             $this->url($baseUrl . '/', $now, 'weekly', '1.0') .
+            $this->url($baseUrl . '/website-cost-calculator', $now, 'monthly', '0.9') .
             $this->url($baseUrl . '/blog', $now, 'weekly', '0.7') .
             '</urlset>' . "\n";
     }

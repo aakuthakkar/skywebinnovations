@@ -23,6 +23,7 @@
 </head>
 <body>
     @yield('body')
+    @stack('scripts')
     @vite('resources/js/app.js')
 </body>
 </html>
