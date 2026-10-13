@@ -28,6 +28,17 @@ return [
         'key' => env('RESEND_KEY'),
     ],
 
+    /*
+    | Backlink data for the public Backlink Checker tool.
+    | Get a key from your SE Ranking account → Settings → API.
+    | Leave blank to disable live external data (the tool then only serves
+    | the site's own tracked backlinks and explains the rest honestly).
+    */
+    'seranking' => [
+        'api_key' => env('SERANKING_API_KEY'),
+        'timeout' => env('SERANKING_TIMEOUT', 20),
+    ],
+
     'slack' => [
         'notifications' => [
             'bot_user_oauth_token' => env('SLACK_BOT_USER_OAUTH_TOKEN'),

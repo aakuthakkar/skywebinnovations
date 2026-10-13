@@ -22,6 +22,7 @@ use App\Http\Controllers\Admin\FooterLinkController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\CalculatorController;
+use App\Http\Controllers\BacklinkCheckerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\BlogController;
 use App\Http\Controllers\RobotsController;
@@ -36,6 +37,10 @@ Route::post('/contact', [ContactController::class, 'submit'])->name('contact.sub
 
 // Free tools (link-magnet pages — must be above the catch-all {slug} route)
 Route::get('/website-cost-calculator', [CalculatorController::class, 'index'])->name('calculator');
+
+// Public backlink checker (link-magnet tool — must be above the catch-all {slug} route)
+Route::get('/backlink-checker', [BacklinkCheckerController::class, 'index'])->name('backlink-checker.index');
+Route::get('/backlink-checker/report', [BacklinkCheckerController::class, 'show'])->name('backlink-checker.report');
 
 Route::get('robots.txt', [RobotsController::class, 'index'])->name('robots');
 Route::get('sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');

@@ -68,6 +68,7 @@ class SitemapController extends BaseController
 
         // Free tool — high value landing page (link magnet)
         $xml .= $this->url($baseUrl . '/website-cost-calculator', $now, 'monthly', '0.9');
+        $xml .= $this->url($baseUrl . '/backlink-checker', $now, 'monthly', '0.9');
 
         // Published blog posts
         foreach (BlogPost::published()->orderByDesc('published_at')->get() as $post) {
@@ -93,6 +94,7 @@ class SitemapController extends BaseController
             '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">' . "\n" .
             $this->url($baseUrl . '/', $now, 'weekly', '1.0') .
             $this->url($baseUrl . '/website-cost-calculator', $now, 'monthly', '0.9') .
+            $this->url($baseUrl . '/backlink-checker', $now, 'monthly', '0.9') .
             $this->url($baseUrl . '/blog', $now, 'weekly', '0.7') .
             '</urlset>' . "\n";
     }
