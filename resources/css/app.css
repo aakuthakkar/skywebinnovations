@@ -1,0 +1,121 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+  background: oklch(0.14 0.02 272);
+  overflow-x: hidden;
+}
+
+body {
+  margin: 0;
+  background: oklch(0.14 0.02 272);
+  color: oklch(0.96 0.005 272);
+  font-family: 'Geist', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  color: oklch(0.78 0.12 273);
+}
+
+input, textarea, button {
+  font: inherit;
+}
+
+::selection {
+  background: oklch(0.62 0.19 273);
+  color: #fff;
+}
+
+/* Animations */
+@keyframes swi-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes swi-spin-r {
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes swi-marq {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes swi-rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes swi-pulse {
+  0%, 100% { opacity: .55; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.06); }
+}
+
+/* Hide scrollbar for carousel */
+#work-carousel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+#work-carousel::-webkit-scrollbar {
+  display: none;
+}
+
+/* Responsive nav */
+@media (max-width: 960px) {
+  #nav-links {
+    display: none !important;
+  }
+  #nav-links.show-mobile {
+    display: flex !important;
+    flex-direction: column;
+    position: absolute;
+    top: 56px;
+    left: 16px;
+    right: 16px;
+    background: oklch(0.19 0.025 272 / 0.95);
+    backdrop-filter: blur(16px);
+    border-radius: 16px;
+    padding: 16px;
+    gap: 12px;
+    border: 1px solid oklch(0.32 0.03 272 / 0.8);
+  }
+  #nav-toggle {
+    display: block !important;
+  }
+}
+
+/* Prevent horizontal scroll */
+section, .container, [class*="section"] {
+  overflow-x: hidden;
+}
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .9s cubic-bezier(.2,.7,.2,1), transform .9s cubic-bezier(.2,.7,.2,1);
+}
+
+[data-reveal].revealed {
+  opacity: 1;
+  transform: none;
+}
+
+/* Hide scrollbar for carousel */
+#work-carousel {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+#work-carousel::-webkit-scrollbar {
+  display: none;
+}

@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /api/
+Crawl-delay: 1
+
+# Sitemaps
+Sitemap: http://localhost:8000/sitemap.xml
