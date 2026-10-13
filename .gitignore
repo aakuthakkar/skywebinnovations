@@ -43,3 +43,12 @@ yarn-error.log
 Thumbs.db
 .DS_Store
 desktop.ini
+
+# Live-server deployment folder (contains one-off maintenance scripts
+# like create-admin.php / clear-cache.php that must never be committed)
+/public_html/
+
+
+# One-off server maintenance scripts — never commit (public web-root danger)
+create-admin.php
+clear-cache.php
