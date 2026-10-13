@@ -21,3 +21,25 @@ yarn-error.log
 /.nova
 /.vscode
 /.zed
+
+# Archives / backups — NEVER commit these
+*.zip
+*.tar
+*.tar.gz
+*.gz
+*.7z
+*.rar
+*.sql
+*.sql.gz
+*.dump
+*.bak
+*.backup
+*.old
+*_export*
+*database*export*
+*.log
+
+# OS junk
+Thumbs.db
+.DS_Store
+desktop.ini

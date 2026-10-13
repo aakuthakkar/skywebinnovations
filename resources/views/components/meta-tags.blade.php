@@ -65,8 +65,14 @@
 <meta name="twitter:image:alt" content="{{ $siteName }} - Web Development & Digital Products">
 <meta name="twitter:creator" content="{{ $settings['twitter_handle'] ?? '@skywebinnovations' }}">
 
-<!-- Hreflang (only x-default since single-language site) -->
+<!-- Hreflang — international targeting (single English site serving multiple markets) -->
 <link rel="alternate" hreflang="x-default" href="{{ $url }}/">
+<link rel="alternate" hreflang="en-us" href="{{ $url }}/">
+<link rel="alternate" hreflang="en-gb" href="{{ $url }}/">
+<link rel="alternate" hreflang="en-ca" href="{{ $url }}/">
+<link rel="alternate" hreflang="en-au" href="{{ $url }}/">
+<link rel="alternate" hreflang="en-nz" href="{{ $url }}/">
+<link rel="alternate" hreflang="en" href="{{ $url }}/">
 
 <!-- Preconnect for performance -->
 <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -79,7 +85,7 @@
     $orgUrl = $url;
     $orgName = $siteName;
     $orgEmail = $settings['contact_email'] ?? 'info@skywebinnovations.com';
-    $orgPhone = $settings['contact_phone'] ?? '+91-7990903773';
+    $orgPhone = $settings['contact_phone'] ?? '+91-8469015463';
     $founderName = $settings['founder_name'] ?? 'Aakash Thakkar';
     $founderLinkedin = $settings['linkedin_url'] ?? 'https://www.linkedin.com/in/aakash-thakkar-a8b9a988/';
     $logoUrl = $url . '/assets/logo.jpeg';
@@ -134,22 +140,32 @@
             "email": "{{ $orgEmail }}",
             "telephone": "{{ $orgPhone }}",
             "description": "Website, custom web application, SaaS and digital product development company.",
-            "foundingDate": "2019",
+            "foundingDate": "{{ $settings['founding_date'] ?? '2024' }}",
             "founder": {"@id": "{{ $orgUrl }}/#founder"},
             "sameAs": [
                 "{{ $founderLinkedin }}"
             ],
-            "areaServed": ["US", "CA", "AU", "NZ", "GB"],
+            "areaServed": [
+                {"@type": "Country", "name": "United States"},
+                {"@type": "Country", "name": "United Kingdom"},
+                {"@type": "Country", "name": "Canada"},
+                {"@type": "Country", "name": "Australia"},
+                {"@type": "Country", "name": "New Zealand"}
+            ],
             "address": {
                 "@type": "PostalAddress",
-                "addressCountry": "US"
+                "streetAddress": "Vedant Lifestyle, C 27, Kalali Rd, near Chanakya Nagri, opposite CM Patel Farm, Atladara",
+                "addressLocality": "Vadodara",
+                "addressRegion": "Gujarat",
+                "postalCode": "390012",
+                "addressCountry": "IN"
             },
             "contactPoint": {
                 "@type": "ContactPoint",
                 "email": "{{ $orgEmail }}",
                 "telephone": "{{ $orgPhone }}",
                 "contactType": "sales",
-                "availableLanguage": ["English"]
+                "availableLanguage": ["English", "Hindi", "Gujarati"]
             }@if($servicesForSchema->count() > 0),
             "hasOfferCatalog": {!! json_encode([
                 '@type' => 'OfferCatalog',
@@ -157,6 +173,38 @@
                 'itemListElement' => $servicesForSchema->toArray()
             ], JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
             @endif
+        },
+        {
+            "@type": "ProfessionalService",
+            "@id": "{{ $orgUrl }}/#professionalservice",
+            "name": "{{ $orgName }}",
+            "image": "{{ $imageFull }}",
+            "url": "{{ $orgUrl }}/",
+            "telephone": "{{ $orgPhone }}",
+            "email": "{{ $orgEmail }}",
+            "priceRange": "$$",
+            "address": {
+                "@type": "PostalAddress",
+                "streetAddress": "Vedant Lifestyle, C 27, Kalali Rd, near Chanakya Nagri, opposite CM Patel Farm, Atladara",
+                "addressLocality": "Vadodara",
+                "addressRegion": "Gujarat",
+                "postalCode": "390012",
+                "addressCountry": "IN"
+            },
+            "geo": {"@type": "GeoCoordinates", "latitude": 22.3072, "longitude": 73.1812},
+            "openingHoursSpecification": [{
+                "@type": "OpeningHoursSpecification",
+                "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday"],
+                "opens": "09:00",
+                "closes": "18:00"
+            }],
+            "aggregateRating": {
+                "@type": "AggregateRating",
+                "ratingValue": "5.0",
+                "reviewCount": "2",
+                "bestRating": "5",
+                "worstRating": "1"
+            }
         },
         {
             "@type": "Person",
