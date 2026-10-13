@@ -64,10 +64,10 @@ Links you *earn* by creating something worth linking to. This is what moves rank
 | # | Tactic | Description | Status |
 |---|--------|-------------|--------|
 | 1 | **Original data study** | Publish "State of Small Business Websites 2026" — journalists/bloggers cite data | ⬜ |
-| 2 | **Free tool** | Website cost calculator, SEO checker, page speed tool — tools earn links naturally | ⬜ |
+| 2 | **Free tool** | Website cost calculator ✅ BUILT (needs deploy). More tools later. | ✅ |
 | 3 | **Case studies** | 3 detailed "How we built X for Y, results Z" — linkable assets | ⬜ |
 | 4 | **Infographic** | One strong, data-backed infographic per quarter | ⬜ |
-| 5 | **Guest posting** | 1 quality post/month on real dev/business blogs (NOT spam) | ⬜ |
+| 5 | **Guest posting** | 1 quality post/month on real dev/business blogs (NOT spam). Outreach kit ready: see `guest-post-outreach-kit.md` | 🔄 |
 | 6 | **Resource page links** | Find "best web dev agencies" / "recommended tools" pages, request inclusion | ⬜ |
 | 7 | **Broken link building** | Find dead links on relevant blogs, offer your content as replacement | ⬜ |
 

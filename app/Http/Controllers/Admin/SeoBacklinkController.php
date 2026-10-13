@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\SeoBacklink;
+use App\Services\BacklinkChecker;
 use Illuminate\Http\Request;
 
 class SeoBacklinkController
@@ -95,5 +96,56 @@ class SeoBacklinkController
     {
         $seoBacklink->delete();
         return redirect()->route('admin.seo.backlinks.index')->with('success', 'Backlink removed.');
+    }
+
+    /**
+     * Verify every active backlink with a real HTTP request and auto-flag
+     * any that have gone dead or lost their link. Returns to the index with
+     * a summary of what was found.
+     */
+    public function healthCheck(BacklinkChecker $checker)
+    {
+        // Cap the batch so a large list can't time out the request. Priority
+        // goes to links not checked recently, so repeated runs rotate through.
+        $limit = (int) config('seo.backlink_check_batch_size', 50);
+        $backlinks = SeoBacklink::query()
+            ->orderByRaw('last_seen_at IS NULL DESC')
+            ->orderBy('last_seen_at', 'asc')
+            ->limit($limit)
+            ->get();
+
+        if ($backlinks->isEmpty()) {
+            return redirect()->route('admin.seo.backlinks.index')
+                ->with('success', 'No backlinks to check yet — add some first.');
+        }
+
+        $summary = $checker->checkMany($backlinks);
+
+        $message = "Health check complete: {$summary['checked']} checked — "
+            . "{$summary['ok']} live, {$summary['dead']} dead, "
+            . "{$summary['missing']} missing your link, {$summary['unreachable']} couldn't be verified.";
+
+        return redirect()->route('admin.seo.backlinks.index')->with([
+            'success' => $message,
+            'health_check' => $summary,
+        ]);
+    }
+
+    /**
+     * Re-check a single backlink (used by the per-row "Re-check" button).
+     */
+    public function recheck(SeoBacklink $seoBacklink, BacklinkChecker $checker)
+    {
+        $result = $checker->check($seoBacklink);
+
+        $labels = [
+            'ok' => 'is live',
+            'dead' => 'is dead (page removed)',
+            'missing' => 'no longer links to your site',
+            'unreachable' => "couldn't be verified",
+        ];
+
+        return redirect()->route('admin.seo.backlinks.index')
+            ->with('success', '"' . $seoBacklink->source_domain . '" ' . ($labels[$result['status']] ?? 'checked') . '.');
     }
 }

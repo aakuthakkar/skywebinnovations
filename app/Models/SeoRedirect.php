@@ -17,4 +17,9 @@ class SeoRedirect extends Model
             'hit_count' => 'integer',
         ];
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 }

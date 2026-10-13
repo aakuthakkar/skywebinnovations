@@ -5,8 +5,32 @@
 @section('content')
 <div class="page-header">
   <h1>Backlink Management</h1>
-  <a href="{{ route('admin.seo.backlinks.create') }}" class="btn btn-primary">+ Add Backlink</a>
+  <div style="display:flex; gap:10px;">
+    <form method="POST" action="{{ route('admin.seo.backlinks.health-check') }}" onsubmit="this.querySelector('button').disabled=true; this.querySelector('button').textContent='Checking… (this can take a minute)';">
+      @csrf
+      <button type="submit" class="btn btn-ghost" title="Verify each backlink still loads and still links to your site">⟳ Run Health Check</button>
+    </form>
+    <a href="{{ route('admin.seo.backlinks.create') }}" class="btn btn-primary">+ Add Backlink</a>
+  </div>
 </div>
+
+@if(session('health_check'))
+  @php $hc = session('health_check'); @endphp
+  <div class="card" style="margin-bottom:20px; border-left:3px solid oklch(0.72 0.17 150);">
+    <h3 style="margin:0 0 12px; font-size:15px;">Health Check Results</h3>
+    <div class="stats-grid">
+      <div class="stat-card"><div class="label">Checked</div><div class="value">{{ $hc['checked'] }}</div></div>
+      <div class="stat-card"><div class="label">Live</div><div class="value" style="color:oklch(0.72 0.17 150);">{{ $hc['ok'] }}</div></div>
+      <div class="stat-card"><div class="label">Dead</div><div class="value" style="color:oklch(0.72 0.14 25);">{{ $hc['dead'] }}</div></div>
+      <div class="stat-card"><div class="label">Link Removed</div><div class="value" style="color:oklch(0.75 0.15 60);">{{ $hc['missing'] }}</div></div>
+      <div class="stat-card"><div class="label">Unverified</div><div class="value" style="color:oklch(0.7 0.02 272);">{{ $hc['unreachable'] }}</div></div>
+    </div>
+    <p style="margin:12px 0 0; font-size:13px; color:oklch(0.65 0.02 272);">
+      "Unverified" means the site blocked the request or timed out — not necessarily lost. Re-check later.
+      {{ $hc['checked'] >= 50 ? 'Only the 50 oldest-checked links were verified this run; run again to cover more.' : '' }}
+    </p>
+  </div>
+@endif
 
 <div class="stats-grid" style="margin-bottom: 20px;">
   <div class="stat-card">
@@ -84,9 +108,13 @@
             <span class="badge badge-closed">Inactive</span>
           @endif
         </td>
-        <td style="font-size:13px;">{{ $backlink->last_seen_at->format('M j, Y') }}</td>
+        <td style="font-size:13px;">{{ $backlink->last_seen_at?->format('M j, Y') ?? 'Never' }}</td>
         <td>
           <div class="actions">
+            <form method="POST" action="{{ route('admin.seo.backlinks.recheck', $backlink) }}" style="display:inline;">
+              @csrf
+              <button type="submit" class="btn btn-xs btn-ghost" title="Re-verify this single backlink">Re-check</button>
+            </form>
             <a href="{{ route('admin.seo.backlinks.edit', $backlink) }}" class="btn btn-xs btn-edit">Edit</a>
             <form method="POST" action="{{ route('admin.seo.backlinks.destroy', $backlink) }}" onsubmit="return confirm('Remove this backlink?')" style="display:inline;">
               @csrf @method('DELETE')

@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\SeoKeywordController;
 use App\Http\Controllers\Admin\SeoBacklinkController;
 use App\Http\Controllers\Admin\SeoRedirectController;
 use App\Http\Controllers\Admin\SeoTechnicalController;
+use App\Http\Controllers\Admin\SeoDashboardController;
 use App\Http\Controllers\Admin\PageController as AdminPageController;
 use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\NavigationItemController;
@@ -59,10 +60,13 @@ Route::prefix('admin')->middleware('auth')->name('admin.')->group(function () {
 
     // SEO Routes
     Route::prefix('seo')->name('seo.')->group(function () {
-        Route::get('/', [SeoTechnicalController::class, 'index'])->name('index');
+        Route::get('/', [SeoDashboardController::class, 'index'])->name('index');
+        Route::get('technical', [SeoTechnicalController::class, 'index'])->name('technical.index');
         Route::post('audit', [SeoTechnicalController::class, 'audit'])->name('audit');
         Route::resource('keywords', SeoKeywordController::class);
         Route::resource('backlinks', SeoBacklinkController::class);
+        Route::post('backlinks/health-check', [SeoBacklinkController::class, 'healthCheck'])->name('backlinks.health-check');
+        Route::post('backlinks/{seoBacklink}/recheck', [SeoBacklinkController::class, 'recheck'])->name('backlinks.recheck');
         Route::resource('redirects', SeoRedirectController::class);
     });
 

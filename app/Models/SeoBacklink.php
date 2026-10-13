@@ -23,4 +23,9 @@ class SeoBacklink extends Model
             'lost_at' => 'date',
         ];
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('is_active', true);
+    }
 }
